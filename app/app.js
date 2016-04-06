@@ -3,6 +3,7 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var bodyParser = require('body-parser');
 var handlebars  = require('express-handlebars'), hbs;
 var app = express();
 
@@ -19,7 +20,14 @@ hbs = handlebars.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+// parse request bodies (req.body)
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, 'static')));
+
+
+// send app to router
+require('./router')(app);
 
 app.use(function(err, req, res, next){
   // log it
@@ -33,10 +41,6 @@ app.use(function(err, req, res, next){
 app.use(function(req, res, next){
   res.status(404).render('404', { url: req.originalUrl });
 });
-
-
-// send app to router
-require('./router')(app);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

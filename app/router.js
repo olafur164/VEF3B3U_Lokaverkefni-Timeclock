@@ -6,6 +6,6 @@ module.exports = function(app){
     // Main Routes
     
     app.get('/', HomeController.Index);
-    app.get('/other', HomeController.Other);   
-    
+    app.get('/other', HomeController.Other);    
+
 };
