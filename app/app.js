@@ -5,6 +5,7 @@ var http = require('http');
 var path = require('path');
 var bodyParser = require('body-parser');
 var handlebars  = require('express-handlebars'), hbs;
+var browserify = require('browserify');
 var app = express();
 
 app.set('port', 80);
@@ -23,11 +24,11 @@ app.set('view engine', 'handlebars');
 // parse request bodies (req.body)
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'static')));
-
 
 // send app to router
-require('./router')(app);
+require('./config/router')(app);
+
+require('./config/static')(app, express, path);
 
 app.use(function(err, req, res, next){
   // log it
