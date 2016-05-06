@@ -5,10 +5,9 @@ var http = require('http');
 var path = require('path');
 var bodyParser = require('body-parser');
 var handlebars  = require('express-handlebars'), hbs;
-var browserify = require('browserify');
 var app = express();
 
-app.set('port', 80);
+app.set('port', 2);
 app.set('views', path.join(__dirname, 'views'));
 
 /* express-handlebars - https://github.com/ericf/express-handlebars
@@ -29,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require('./config/router')(app);
 
 require('./config/static')(app, express, path);
+
 
 app.use(function(err, req, res, next){
   // log it

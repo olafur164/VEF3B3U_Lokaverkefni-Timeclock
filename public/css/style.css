@@ -1,0 +1,108 @@
+body {
+  margin: 0px;
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif; font-weight: 100; 
+  background:#202020;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+button:active, button:focus {
+    outline:none;
+}
+
+button:active {
+-webkit-animation:ripple 2.20s linear;
+}
+.ink {
+  display: block;
+  position: absolute;
+  background:rgba(255, 255, 255, 0.3);
+  border-radius: 100%;
+  -webkit-transform:scale(0);
+     -moz-transform:scale(0);
+       -o-transform:scale(0);
+          transform:scale(0);
+}
+.animate {
+  -webkit-animation:ripple 0.65s linear;
+   -moz-animation:ripple 0.65s linear;
+    -ms-animation:ripple 0.65s linear;
+     -o-animation:ripple 0.65s linear;
+        animation:ripple 0.65s linear;
+}
+
+@-webkit-keyframes ripple {
+    100% {opacity: 0; -webkit-transform: scale(2.5);}
+}
+@-moz-keyframes ripple {
+    100% {opacity: 0; -moz-transform: scale(2.5);}
+}
+@-o-keyframes ripple {
+    100% {opacity: 0; -o-transform: scale(2.5);}
+}
+@keyframes ripple {
+    100% {opacity: 0; transform: scale(2.5);}
+}
+#statusbar-40 {
+  height: 40px;
+}
+
+#title {
+  font-size: 22px;
+  text-align: center;
+}
+
+#input-div {
+  font-size: 50px;
+  margin: 10px 0px 0px 0px;
+  text-align: center;
+}
+
+.input-num {
+  margin: 0px 15px;
+}
+
+.num-row {
+  margin: 20px 39px;
+}
+.num {
+  color: #fff;
+font-weight: 600;
+padding: 12px 25px;
+border-top: 1px solid #4d4d4d;
+border-right: 1px solid #000;
+border-bottom: 1px solid #000;
+border-left: 1px solid #4d4d4d;
+text-align: center;
+  background-color: rgba(255,0,0,0);background: #1d1918;
+font-size: 26px;
+}
+.num {
+
+float: left;
+width: 33.33%;
+padding: 28px 16px;
+}
+#num-10{
+  /*background-color: rgba(0,0,0,0.3);*/
+  padding: 10px 13px;
+padding: 28px 16px;
+}
+#num-11 {
+  /*background-color: rgba(255,255,255,0.3);*/
+  padding: 10px 9px;
+padding: 28px 16px;
+}
+
+#loading-div {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: none;
+}
