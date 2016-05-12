@@ -1,3 +1,5 @@
+var db = require('./db');
+
 var HomeController = require('./../controllers/HomeController');
 var TimeClockController = require('./../controllers/TimeClockController');
 
@@ -7,6 +9,6 @@ module.exports = function(app){
     // Main Routes
     
     app.get('/', TimeClockController.Index);   
-    app.get('/log/:passKey', TimeClockController.Log);
+    app.post('/', TimeClockController.Log)
 
 }

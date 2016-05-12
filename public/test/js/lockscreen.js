@@ -59,24 +59,19 @@ function addInput(num){
   console.log(input);
   if(input.length<=3){
     $("#input-num-"+input.length).text(num);
+    $('#passcode').val($('#passcode').val() + num);
   }
 }
 function deleteInput(){
   if(input.length<=3){
     $("#input-num-"+input.length).text("·");
+    $('#passcode').val($('#passcode').val().slice(0, -1));
   }
   input.pop();
 }
 
 
 function postPasscode(){
-  console.log(input);
-  if (input.length < 3) {
-    wrongPasswd();
-  }
-  else {
-    window.location.href = '/log/' + chopArray(input);
-  }
  stopLoading()
   /*
   var passcode = [8,8,8];

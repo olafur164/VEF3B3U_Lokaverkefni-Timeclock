@@ -1,4 +1,5 @@
 var mysql      = require('mysql');
+var moment = require('moment');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -15,55 +16,47 @@ connection.connect(function(err) {
 
   console.log('connected as id ' + connection.threadId);
 });
-exports.example = function() {
-	connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-	  if (err) throw err;
+    exports.clockEmployee = function(req,res,done) {
+        var passcode = req.body.passcode;
+    	connection.query("SELECT * FROM employees WHERE passcode = ?", passcode, function(err, rows) {
+        	if (err)
+                return done(err);
+            if (rows.length) {
+            	var social_id = rows[0].social_id;
+            	// Check if user is logged in if not then clock him else clock out.
+            	connection.query("SELECT * FROM timeentries where employee_id = ? and ClockOut IS NULL and logged_in = 1", social_id, function(err, rows) {
 
-	  console.log('The solution is: ', rows[0].solution);
-	});
-}
-
-exports.checkIfUserExists = function(passcode) {
-	var isAlive = 0;
-	var sql = "SET @pass_code = " + passcode + "; SELECT CheckIfExists(@pass_code) as CheckIfExists;"
-	query = connection.query(sql, function(err, result) {
-		if (err) throw err;
-		//console.log(result);
-		return result;
-	});
-}
-exports.test = function(passcode) {
-
-}
-exports.checkIfUserIsLoggedIn = function() {
-
-}
-exports.clock = function(passcode) {
-	var checkUser = this.checkIfUserExists(passcode);
-	console.log(checkUser);
-	if (checkUser == 1) {
-		console.log("Clock IN");
-	}
-}
-exports.clockIn = function(employee_id, time) {
-	connection.query('INSERT INTO timeentries(employee_id,ClockIn) VALUES(' + employee_id + ',NOW())', function(err, rows, fields) {
-		if (err) throw err;
-		if (rows.length > 0) {
-	  		console.log('user exists: ', rows);
-	  		return true
-	  	}
-	  	else {
-			console.log("Failure: No user exists");
-			return false
-		}
-	});	
-}
-exports.clockOut = function(passcode) {
-
-}
-exports.clockOutIfForgot = function(passcode) {
-
-}
-exports.e = function() {
-
-}
+    		    	if (err)
+    		            return done(err);
+    		        if (rows.length) {
+    		        	// Clock Out
+    		        	var updateQuery = "UPDATE timeentries SET ClockOut = NOW(), logged_in = 0 WHERE employee_id = ? and logged_in = 1";
+    		       		connection.query(updateQuery, social_id, function(err, rows) {
+    		        		connection.query("SELECT * FROM employees WHERE social_id = ?", social_id, function(err, rows) {
+                                req.flash('successAnimate', '<script>passedAnimation();</script>');
+                                req.flash('alertSuccess', 'Takk fyrir vaktina ' + rows[0].name + ' - ' + moment(Date.now()).format('MM/DD/YYYY H:m:s'));
+                                res.redirect(301, '/');
+                            })
+    		       		});
+    		       	}
+    		       	else {
+    		       		// Clock In
+    		        	var insertQuery = "INSERT INTO timeentries ( employee_id, ClockIn, ClockOut, logged_in ) values (?, NOW(), NULL, 1)";
+    		        	connection.query(insertQuery, social_id, function(err, rows) {
+                            connection.query("SELECT * FROM employees WHERE social_id = ?", social_id, function(err, rows) {
+                                req.flash('successAnimate', '<script>passedAnimation();</script>');
+                                req.flash('alertSuccess', 'Velkomin/nn á vakt ' + rows[0].name + ' - ' + moment(Date.now()).format('MM/DD/YYYY H:m:s'));
+                                res.redirect(301, '/');
+                            })
+                      });
+    		       	}
+    		    });
+            } else {
+                // if there is no employee with that passcode
+                // Return error message.
+                console.log("Failure");
+                req.flash('alertAnimate', '<script>wrongPasswd();</script>');
+                res.redirect(301, '/');
+            }
+        });
+    }
