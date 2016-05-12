@@ -1,18 +1,16 @@
-'use strict';
-
-var express = require('express');
-var session  = require('express-session');
-var http = require('http');
-var path = require('path');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var morgan = require('morgan');
-var handlebars  = require('express-handlebars'), hbs;
-var mysql      = require('mysql');
+var cookieParser = require('cookie-parser');
+var express = require('express');
 var flash    = require('connect-flash');
-var app = express();
-var sessionStore = new session.MemoryStore;
+var handlebars  = require('express-handlebars'), hbs;
+var http = require('http');
 var moment = require('moment');
+var morgan = require('morgan');
+var mysql      = require('mysql');
+var path = require('path');
+var session  = require('express-session');
+var sessionStore = new session.MemoryStore;
+var app = express();
 
 app.set('port', 2);
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +25,7 @@ hbs = handlebars.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-// set up our express application
+
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.urlencoded({
@@ -57,22 +55,7 @@ require('./config/router')(app);
 
 require('./config/static')(app, express, path);
 
-// Route that creates a flash message using the express-flash module
-app.all('/express-flash', function( req, res ) {
-    req.flash('success', 'This is a flash message using the express-flash module.');
-    res.redirect(301, '/');
-});
 
-// Route that creates a flash message using custom middleware
-app.all('/session-flash', function( req, res ) {
-    req.session.sessionFlash = {
-        type: 'success',
-        message: 'This is a flash message using custom middleware and express-session.'
-    }
-    res.redirect(301, '/');
-});
-
-/*
 app.use(function(err, req, res, next){
   // log it
   if (!module.parent) console.error(err.stack);
@@ -80,7 +63,6 @@ app.use(function(err, req, res, next){
   // error page
   res.status(500).render('5xx');
 });
-*/
 
 // assume 404 since no middleware responded
 app.use(function(req, res, next){

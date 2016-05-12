@@ -1,8 +1,8 @@
 <div id="loading-div"></div>
 <div id="statusbar-20"></div>
 <div id="main-div">
-<div id="statusbar-40"></div>
-<div id="title">Enter Passcode</div>
+	<div id="statusbar-40"></div>
+	<div id="title">Enter Passcode</div>
 {{#if alertSuccess}}
     <div class="alert alert-success" role="alert">{{{alertSuccess}}}</div>
 {{/if}}
@@ -10,38 +10,44 @@
     <div class="alert alert-danger" role="alert">{{{alertDanger}}}</div>
 {{/if}}
 
-<form action="/" method="post">
-<div id="input-div">
-<span class="input-num" id="input-num-1">.</span>
-<span class="input-num" id="input-num-2">.</span>
-<span class="input-num" id="input-num-3">.</span>
+	<form action="/" method="post">
+		<input id="passcode" name="passcode" hidden>
+		<div id="input-div">
+			<span class="input-num" id="input-num-1">.</span>
+			<span class="input-num" id="input-num-2">.</span>
+			<span class="input-num" id="input-num-3">.</span>
+		</div>
+		<div class="num-row">
+			<button type="button" class="num" id="num-1">1</button>
+			<button type="button" class="num" id="num-2">2</button>
+			<button type="button" class="num" id="num-3">3</button>
+		</div>
+		<div class="num-row">
+			<button type="button" class="num" id="num-4">4</button>
+			<button type="button" class="num" id="num-5">5</button>
+			<button type="button" class="num" id="num-6">6</button>
+		</div>
+		<div class="num-row">
+			<button type="button" class="num" id="num-7">7</button>
+			<button type="button" class="num" id="num-8">8</button>
+			<button type="button" class="num" id="num-9">9</button>
+		</div>
+		<div class="num-row">
+			<button type="button" class="num" id="num-10">←</button>
+			<button type="button" class="num" id="num-0">0</button>
+			<button type="submit" class="num" id="num-11">OK</button>
+		</div>
+	</form>
 </div>
-<input id="passcode" name="passcode" hidden>
-<div class="num-row">
-<button type="button" class="num" id="num-1">1</button>
-<button type="button" class="num" id="num-2">2</button>
-<button type="button" class="num" id="num-3">3</button>
-</div>
-<div class="num-row">
-<button type="button" class="num" id="num-4">4</button>
-<button type="button" class="num" id="num-5">5</button>
-<button type="button" class="num" id="num-6">6</button>
-</div>
-<div class="num-row">
-<button type="button" class="num" id="num-7">7</button>
-<button type="button" class="num" id="num-8">8</button>
-<button type="button" class="num" id="num-9">9</button>
-</div>
-<div class="num-row">
-<button type="button" class="num" id="num-10">←</button>
-<button type="button" class="num" id="num-0">0</button>
-<button type="submit" class="num" id="num-11">OK</button>
-</div>
-</div>
-</form>
-  <script src="/test/js/spin.min.js"></script>
-  <script src="/test/js/jquery-2.0.3.min.js"></script>
-  <script src="/test/js/lockscreen.js"></script>
+<script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/lockscreen.js"></script>
+<script>
+    setTimeout(fade_out, 3000);
+
+    function fade_out() {
+      $(".alert").fadeOut().empty();
+    }
+</script>
 {{#if alertAnimate}}
     {{{alertAnimate}}}
 {{/if}}
